@@ -1,4 +1,6 @@
-<!DOCTYPE html><html lang="it"><head>
+<!DOCTYPE html>
+<html lang="it">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kiwi Timer</title>
@@ -52,96 +54,94 @@
         <button class="start" onclick="startTimer(15, 0)">Riprendi lo Studio</button>
         <button class="pause" onclick="pauseTimer()">Pausa</button>
         <button class="reset" onclick="resetTimer()">Reset</button>
-    </div><img id="kiwi-img" src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Kiwi_aka.jpg" alt="Kiwi">
-    <head>
-        <h3>
-            
-            Il Kiwi Timer è un utile strumento per la gestione del tempo basato sulla tecnica del Pomodoro, aiutando a migliorare la concentrazione e la produttività. Grazie al suo design ispirato allo spazio, rende lo studio e le pause più coinvolgenti e motivanti. 
-            
-            
-            
-            
-</h3>
-    </head><audio id="focus-sound" loop>
-    <source src="https://www.bensound.com/bensound-music/bensound-relaxing.mp3" type="audio/mpeg">
-</audio>
-<button onclick="toggleSound()">Attiva/Disattiva Suono</button>
-<head>
+    </div>
+    <img id="kiwi-img" src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Kiwi_aka.jpg" alt="Kiwi">
+    <h3>
+        Il Kiwi Timer è un utile strumento per la gestione del tempo basato sulla tecnica del Pomodoro, aiutando a migliorare la concentrazione e la produttività.
+    </h3>
+    <audio id="focus-sound" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-relaxing.mp3" type="audio/mpeg">
+    </audio>
+    <button onclick="toggleSound()">Attiva/Disattiva Suono</button>
     <h4>Usa questo suono per concentrarti durante lo studio</h4>
-</head>
 
-
-
-<head>
     <h2>NOTE</h2>
     <input type="text">
-</head>
+    <h6>Copyright @Ricky IL SITO NON DEVE ESSERE PUBBLICATO, È SOLTANTO UNA PROVA</h6>
+    <audio id="beep-sound">
+        <source src="https://www.soundjay.com/button/beep-07.wav" type="audio/wav">
+    </audio>
 
-<head>
-    <h6>Copyricht @Ricky            IL SITO NON DEVE ESSERE PUBBLICATO, È SOLTANTO UNA PROVA</h6>
-</head>
+    <script>
+        let timer;
+        let minutes = 25;
+        let seconds = 0;
+        let running = false;
+        let soundPlaying = false;
+        const focusSound = document.getElementById("focus-sound");
+        const beepSound = document.getElementById("beep-sound");
 
-<head><video><source>scr="https://youtu.be/LcE3TM63H8U?si=1eWrC1VdYotcTH1c"</suorce></video>
-</head>
-<script>
-    let timer;
-    let minutes = 25;
-    let seconds = 0;
-    let running = false;
-    let soundPlaying = false;
-    const focusSound = document.getElementById("focus-sound");
+        function updateDisplay() {
+            document.getElementById('timer').innerText = 
+                (minutes < 10 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+        }
 
-    function updateDisplay() {
-        document.getElementById('timer').innerText = 
-            (minutes < 10 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
-    }
-
-    function startTimer(min, sec) {
-        if (!running) {
-            running = true;
-            minutes = min;
-            seconds = sec;
-            updateDisplay();
-            timer = setInterval(() => {
-                if (seconds === 0) {
-                    if (minutes === 0) {
-                        clearInterval(timer);
-                        running = false;
-                        alert('Complimenti continua cosi!');
-                    } else {
-                        minutes--;
-                        seconds = 59;
-                    }
-                } else {
-                    seconds--;
-                }
+        function startTimer(min, sec) {
+            if (!running) {
+                running = true;
+                minutes = min;
+                seconds = sec;
                 updateDisplay();
-            }, 1000);
+                timer = setInterval(() => {
+                    if (seconds === 0) {
+                        if (minutes === 0) {
+                            clearInterval(timer);
+                            running = false;
+                            alert('Complimenti continua cosi!');
+                            playBeep();
+                        } else {
+                            minutes--;
+                            seconds = 59;
+                        }
+                    } else {
+                        seconds--;
+                    }
+                    updateDisplay();
+                }, 1000);
+            }
         }
-    }
 
-    function pauseTimer() {
-        clearInterval(timer);
-        running = false;
-    }
+        function pauseTimer() {
+            clearInterval(timer);
+            running = false;
+        }
 
-    function resetTimer() {
-        clearInterval(timer);
-        running = false;
-        minutes = 25;
-        seconds = 0;
+        function resetTimer() {
+            clearInterval(timer);
+            running = false;
+            minutes = 25;
+            seconds = 0;
+            updateDisplay();
+        }
+
+        function playBeep() {
+            beepSound.play();
+            setTimeout(() => {
+                beepSound.pause();
+                beepSound.currentTime = 0;  // Reset the sound to play it again if needed
+            }, 25000);  // 25 seconds of beep sound
+        }
+
+        function toggleSound() {
+            if (soundPlaying) {
+                focusSound.pause();
+            } else {
+                focusSound.play();
+            }
+            soundPlaying = !soundPlaying;
+        }
+
         updateDisplay();
-    }
-
-    function toggleSound() {
-        if (soundPlaying) {
-            focusSound.pause();
-        } else {
-            focusSound.play();
-        }
-        soundPlaying = !soundPlaying;
-    }
-
-    updateDisplay();
-</script></body>
+    </script>
+</body>
 </html>
